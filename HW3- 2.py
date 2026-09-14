@@ -1,7 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def centeral_differance_derivative(f, x, h):
+x_val = 1
+y_val = 1
+approx_val = 1
+
+def centeral_derivative(f, x, h):
     '''
     parameters:
     f (function) : the function to differentiate 
@@ -13,7 +17,7 @@ def run_verification():
     x_val = 1.0
     x_plot = np.linspace(0, 2 * np.pi, 200)
     h_visual = 0.01
-    num_deriv_sin = central_derivative(np.sin, x_plot, h_visual)
+    num_deriv_sin = centeral_derivative(np.sin, x_plot, h_visual)
     true_deriv_sin = np.cos(x_plot)
     plt.figure(figsize=(12, 5))
     
@@ -30,23 +34,24 @@ def run_verification():
     plt.savefig('derivative_verification.png')
     plt.show()
     
-    step_sizes = np.logspace(0, -6, 50)
-    errors = []
+step_sizes = np.logspace(0, -6, 50)
+errors = []
     
-    true_val = np.cos(x_val)
-    for h in step_sizes:
-        aprox_val = centeral_derivative(np.sin, x_val, h)
-        error = np.abs(approx_val - true_val)
-        errors.append(error)
-    plt.title("Error vs Step Size (Log-Log Scale)")
-    plt.xlabel("Step Size (h)")
-    plt.ylabel("Absolute Error")
-    plt.legend()
-    plt.grid(True, which="both", ls="--")
-    plt.gca().invert_xaxis()
-    plt.savefig('error_scaling.png')
-    plt.show()
+true_val = np.cos(x_val)
+for h in step_sizes:
+    approx_val = centeral_derivative(np.sin, x_val, h)
+    error = np.abs(approx_val - true_val)
+    errors.append(error)
     
+plt.plot(step_sizes, errors, 'o')
+plt.title("Error vs Step Size (Log-Log Scale)")
+plt.xlabel("Step Size (h)")
+plt.ylabel("Absolute Error")
+plt.legend()
+plt.grid(True, which="both", ls="--")
+plt.savefig('error_scaling.png')
+plt.show()
     
+
     
     
